@@ -1,4 +1,3 @@
-from rest_framework import generics
 from rest_framework.mixins import ListModelMixin
 from rest_framework.viewsets import GenericViewSet
 
@@ -12,7 +11,7 @@ class RevenueStatisticByDateAndNameView(ListModelMixin, GenericViewSet):
     serializer_class = RevenueStatisticSerializer
 
     def get_queryset(self):
-        queryset = RevenueStatistic.objects.select_related(
+        queryset = self.queryset.select_related(
             "spend"
         ).values("date", "name").annotate(
             total_revenue=Sum("revenue"),
