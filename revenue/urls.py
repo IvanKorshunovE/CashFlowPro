@@ -1,10 +1,12 @@
-from rest_framework import routers
+from django.urls import path
+from revenue import views
 
-from revenue.views import RevenueStatisticByDateAndNameView
-
-router = routers.DefaultRouter()
-router.register("revenues", RevenueStatisticByDateAndNameView)
-
-urlpatterns = router.urls
+urlpatterns = [
+    path(
+        "revenue-statistics/",
+        views.RevenueStatisticByDateAndNameView.as_view(),
+        name="revenue-statistics"
+    ),
+]
 
 app_name = "revenue"

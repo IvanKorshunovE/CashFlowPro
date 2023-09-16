@@ -1,12 +1,12 @@
-from rest_framework.mixins import ListModelMixin
-from rest_framework.viewsets import GenericViewSet
+from rest_framework import generics
+
+from django.db.models import Sum
 
 from revenue.models import RevenueStatistic
 from revenue.serializers import RevenueStatisticSerializer
-from django.db.models import Sum
 
 
-class RevenueStatisticByDateAndNameView(ListModelMixin, GenericViewSet):
+class RevenueStatisticByDateAndNameView(generics.ListAPIView):
     queryset = RevenueStatistic.objects.all()
     serializer_class = RevenueStatisticSerializer
 
