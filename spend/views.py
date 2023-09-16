@@ -1,3 +1,4 @@
+from drf_spectacular.utils import extend_schema
 from rest_framework import generics
 
 from revenue.models import RevenueStatistic
@@ -10,7 +11,6 @@ class SpendStatisticByDateAndNameView(generics.ListAPIView):
     serializer_class = SpendStatisticSerializer
 
     def get_queryset(self):
-
         total_revenue_subquery = RevenueStatistic.objects.filter(
             spend=OuterRef("pk")
         ).values("spend").annotate(
@@ -28,3 +28,9 @@ class SpendStatisticByDateAndNameView(generics.ListAPIView):
         )
 
         return queryset
+
+    @extend_schema(
+        description="Retrieve a list of spend statistics by date and name with aggregated data."
+    )
+    def get(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)

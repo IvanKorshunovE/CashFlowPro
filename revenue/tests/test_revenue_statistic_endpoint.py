@@ -144,10 +144,12 @@ class RevenueStatisticByDateAndNameViewTests(TestCase):
         revenue_three = sample_revenue(
             date=SEPTEMBER_2_2023
         )
+        extra_revenue = sample_revenue()
 
         revenue_one.spend = spend_one
         revenue_two.spend = spend_two
         revenue_three.spend = spend_three
+        extra_revenue.spend = spend_three
 
         spend_one.save()
         spend_two.save()
@@ -156,15 +158,36 @@ class RevenueStatisticByDateAndNameViewTests(TestCase):
         revenue_one.save()
         revenue_two.save()
         revenue_three.save()
+        extra_revenue.save()
 
         september_one_data = {
             "name": revenue_one.name,
             "date": SEPTEMBER_1_2023,
-            "total_revenue": revenue_one.revenue + revenue_two.revenue,
-            "total_spend": revenue_one.spend.spend + revenue_two.spend.spend,
-            "total_impressions": revenue_one.spend.impressions + revenue_two.spend.impressions,
-            "total_clicks": revenue_one.spend.clicks + revenue_two.spend.clicks,
-            "total_conversion": revenue_one.spend.conversion + revenue_two.spend.conversion
+            "total_revenue": (
+                revenue_one.revenue
+                + revenue_two.revenue
+                + extra_revenue.revenue
+            ),
+            "total_spend": (
+                revenue_one.spend.spend
+                + revenue_two.spend.spend
+                + extra_revenue.spend.spend
+            ),
+            "total_impressions": (
+                revenue_one.spend.impressions
+                + revenue_two.spend.impressions
+                + extra_revenue.spend.impressions
+            ),
+            "total_clicks": (
+                revenue_one.spend.clicks
+                + revenue_two.spend.clicks
+                + extra_revenue.spend.clicks
+            ),
+            "total_conversion": (
+                    revenue_one.spend.conversion
+                    + revenue_two.spend.conversion
+                    + extra_revenue.spend.conversion
+            )
         }
 
         september_two_data = self.create_expected_data(revenue_three, SEPTEMBER_2_2023)

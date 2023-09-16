@@ -10,4 +10,4 @@ class SpendStatistic(models.Model):
     conversion = models.IntegerField(default=0)
 
     def __str__(self):
-        return self.name
+        return f"{self.name} - ID: {self.id}"

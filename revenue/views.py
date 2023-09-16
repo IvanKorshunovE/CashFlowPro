@@ -1,3 +1,4 @@
+from drf_spectacular.utils import extend_schema
 from rest_framework import generics
 
 from django.db.models import Sum
@@ -21,3 +22,9 @@ class RevenueStatisticByDateAndNameView(generics.ListAPIView):
             total_conversion=Sum("spend__conversion"),
         )
         return queryset
+
+    @extend_schema(
+        description="Retrieve a list of revenue statistics by date and name with aggregated data."
+    )
+    def get(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
