@@ -12,18 +12,18 @@ class SpendStatisticByDateAndNameView(generics.ListAPIView):
     @staticmethod
     def create_spend_revenue_view():
         sql_create_view = """
-                    CREATE VIEW spend_revenue AS
-                    SELECT rev.spend_id, SUM(rev.revenue) AS total_revenue
-                    FROM revenue_revenuestatistic as rev
-                    GROUP BY rev.spend_id;
-                """
+            CREATE VIEW spend_revenue AS
+            SELECT rev.spend_id, SUM(rev.revenue) AS total_revenue
+            FROM revenue_revenuestatistic as rev
+            GROUP BY rev.spend_id;
+        """
         view_exists = """
-                SELECT EXISTS(
-                    SELECT *
-                    FROM main.sqlite_master
-                    WHERE name = %s
-                );
-                """
+            SELECT EXISTS(
+                SELECT *
+                FROM main.sqlite_master
+                WHERE name = %s
+            );
+        """
         with connections["default"].cursor() as cursor:
             try:
                 cursor.execute(view_exists, ("spend_revenue",))
